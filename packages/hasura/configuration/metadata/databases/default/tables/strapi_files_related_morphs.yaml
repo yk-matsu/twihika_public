@@ -1,0 +1,3 @@
+table:
+  name: files_related_morphs
+  schema: strapi

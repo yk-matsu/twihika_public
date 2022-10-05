@@ -1,0 +1,3 @@
+table:
+  name: strapi_database_schema
+  schema: strapi

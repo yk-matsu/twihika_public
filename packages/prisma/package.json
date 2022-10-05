@@ -1,0 +1,49 @@
+{
+  "name": "@twihika/prisma",
+  "sideEffects": false,
+  "description": "",
+  "version": "0.1.3",
+  "dependencies": {
+    "@prisma/client": "^4.2.1",
+    "cuid": "^2.1.8",
+    "dayjs": "^1.11.5",
+    "zod": "^3.18.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "yarn run prisma:extend && yarn run prisma:generate --schema=schema.prisma && node build.js && tsc --declaration --emitDeclarationOnly --declarationDir './dist/'",
+    "prisma:extend": "node generate.js",
+    "prisma:generate": "prisma generate",
+    "prisma:dev": "prisma migrate dev",
+    "db-setup-tests": "dotenv -e ./test/.env.test -- yarn run build && yarn run db-deploy",
+    "test": "dotenv -e ./test/.env.test -- jest",
+    "db-deploy": "prisma migrate deploy",
+    "prepare:publish": "rm -rf .turbo && rm -rf node_modules",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "postinstall": "prisma generate",
+    "watch": "nodemon --exec \"npm run build\" -e ts --ignore 'src/zod/' --ignore 'dist/'"
+  },
+  "devDependencies": {
+    "@mrleebo/prisma-ast": "^0.4.1",
+    "dotenv-cli": "^6.0.0",
+    "esbuild": "^0.15.5",
+    "glob": "^8.0.3",
+    "jest-environment-jsdom": "^29.0.1",
+    "nodemon": "^2.0.19",
+    "prisma": "^4.2.1",
+    "start-server-and-test": "^1.14.0",
+    "zod-prisma": "^0.5.4"
+  }
+}

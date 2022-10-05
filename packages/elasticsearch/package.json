@@ -1,0 +1,26 @@
+{
+  "name": "@twihika/elasticsearch",
+  "main": "./dist/index.js",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "run-p build:*",
+    "build:esbuild": "node build.js",
+    "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir './dist'",
+    "prepare:publish": "rm -rf .turbo && rm -rf node_modules",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "watch": "nodemon --exec \"npm run build\" -e ts --ignore 'dist/'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.4.0",
+    "getenv": "^1.0.0"
+  },
+  "description": "",
+  "devDependencies": {
+    "@types/getenv": "^1.0.0",
+    "nodemon": "^2.0.19"
+  }
+}

@@ -1,0 +1,14 @@
+schema:
+  - ${HASURA_GRAPHQL_ENDPOINT}/v1/graphql:
+      headers:
+        "x-hasura-admin-secret": ${HASURA_GRAPHQL_ADMIN_SECRET}
+documents:
+  - "./query/**/*.graphql"
+  - "./mutation/**/*.graphql"
+overwrite: true
+generates:
+  "./generated.ts":
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-urql"

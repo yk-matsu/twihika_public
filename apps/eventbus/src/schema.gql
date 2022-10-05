@@ -1,0 +1,26 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+enum Gender {
+  FEMALE
+  MALE
+  OTHER
+}
+
+type Query {
+  """User,ID指定単数取得"""
+  sample(userId: String!): User!
+}
+
+type Subscription {
+  userDelete: User!
+  userSignUp: User!
+}
+
+type User {
+  email: String!
+  gender: Gender!
+  id: ID!
+  name: String
+}

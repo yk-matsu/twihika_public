@@ -1,0 +1,10 @@
+query MasterQueries {
+  master_batch_search_queries(where: {is_published_all: {_eq: true}}, order_by: {updated_at: asc}) {
+    query
+    query_id
+  }
+    master_batch_search_query_categories{
+      query_category_id
+    name
+  }
+}

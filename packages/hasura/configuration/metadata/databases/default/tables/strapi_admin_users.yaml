@@ -1,0 +1,3 @@
+table:
+  name: admin_users
+  schema: strapi

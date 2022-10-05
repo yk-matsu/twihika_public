@@ -1,0 +1,3 @@
+table:
+  name: up_users
+  schema: strapi

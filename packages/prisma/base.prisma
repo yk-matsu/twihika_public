@@ -1,0 +1,111 @@
+datasource postgres {
+  provider = "postgresql"
+  url      = env("POSTGRESQL_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  createdAt DateTime @default(now())
+  firstName String?
+  id        String   @id @default(cuid())
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
+
+model FirebaseUserProvider {
+  createdAt      DateTime     @default(now())
+  displayName    String?
+  email          String
+  firebaseUser   FirebaseUser @relation(fields: [firebaseUserId], references: [id])
+  firebaseUserId String
+  id             String       @id @default(cuid())
+  phoneNumber    String?
+  photoUrl       String?
+  providerId     String
+  updatedAt      DateTime     @updatedAt
+}
+
+model FirebaseUser {
+  createdAt                     DateTime                       @default(now())
+  customClaims                  Json?
+  disabled                      Boolean?
+  displayName                   String?
+  email                         String?
+  emailVerified                 Boolean?
+  firebaseUserProviders         FirebaseUserProvider[]
+  firebaseUserRoles             FirebaseUserRole[]
+  firebaseUserTweetDrilledDowns FirebaseUserTweetDrilledDown[]
+  firebaseUserTweetStocks       FirebaseUserTweetStock[]
+  id                            String                         @id @default(cuid())
+  metadata                      Json?
+  multiFactor                   Json?
+  phoneNumber                   String?
+  photoUrl                      String?
+  updatedAt                     DateTime                       @updatedAt
+}
+
+model FirebaseUserRole {
+  createdAt      DateTime      @default(now())
+  firebaseUser   FirebaseUser? @relation(fields: [firebaseUserId], references: [id])
+  firebaseUserId String?
+  id             String        @id @default(cuid())
+  updatedAt      DateTime      @updatedAt
+  userRole       UserRole?     @relation(fields: [userRoleId], references: [id])
+  userRoleId     String?
+}
+
+model UserRole {
+  createdAt         DateTime           @default(now())
+  firebaseUserRoles FirebaseUserRole[]
+  id                String             @id @default(cuid())
+  name              String?
+  updatedAt         DateTime           @updatedAt
+}
+
+model Outbox {
+  aggregateId   String?
+  aggregateType String?
+  createdAt     DateTime @default(now())
+  eventType     String?
+  id            String   @id @default(cuid())
+  payload       Json?
+  updatedAt     DateTime @updatedAt
+}
+
+model TwitterBotUser {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+model FirebaseUserTweetDrilledDown {
+  createdAt      DateTime      @default(now())
+  firebaseUser   FirebaseUser? @relation(fields: [firebaseUserId], references: [id])
+  firebaseUserId String?
+  id             String        @id @default(cuid())
+  tweetId        String?
+  updatedAt      DateTime      @updatedAt
+}
+
+model ValidLoginRedirectUrl {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  pattern   String?
+  updatedAt DateTime @updatedAt
+}
+
+model FirebaseUserTweetStock {
+  createdAt      DateTime      @default(now())
+  firebaseUser   FirebaseUser? @relation(fields: [firebaseUserId], references: [id])
+  firebaseUserId String?
+  id             String        @id @default(cuid())
+  tweetId        String?
+  tweetRaw       Json?
+  updatedAt      DateTime      @updatedAt
+}

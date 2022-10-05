@@ -1,0 +1,3 @@
+table:
+  name: admin_users_roles_links
+  schema: strapi

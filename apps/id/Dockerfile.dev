@@ -1,0 +1,18 @@
+# Install dependencies only when needed
+FROM public.ecr.aws/docker/library/node:16-buster-slim AS builder
+
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apt update -y && apt install -y libpq-dev g++ make python3
+WORKDIR /app
+
+# Install dependencies based on the preferred package manager
+# Rebuild the source code only when needed
+# FROM node:16-alpine AS builder
+# WORKDIR /app
+# COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+RUN npm install
+
+# If using npm comment out above and use below instead
+CMD ["npm", "run", "dev"]

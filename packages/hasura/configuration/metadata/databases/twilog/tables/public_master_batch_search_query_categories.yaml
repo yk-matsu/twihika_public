@@ -1,0 +1,13 @@
+table:
+  name: master_batch_search_query_categories
+  schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - query_category_id
+        - created_at
+        - updated_at
+        - name
+        - active
+      filter: {}

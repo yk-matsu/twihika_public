@@ -1,0 +1,20 @@
+- name: default
+  kind: postgres
+  configuration:
+    connection_info:
+      database_url:
+        from_env: HASURA_GRAPHQL_DATABASE_URL
+      isolation_level: read-committed
+      use_prepared_statements: false
+  tables: "!include default/tables/tables.yaml"
+- name: twilog
+  kind: postgres
+  configuration:
+    connection_info:
+      database_url:
+        from_env: TWILOG_DATABASE_URL
+      isolation_level: read-committed
+      use_prepared_statements: false
+  customization:
+    naming_convention: hasura-default
+  tables: "!include twilog/tables/tables.yaml"

@@ -1,0 +1,13 @@
+table:
+  name: master_batch_search_queries
+  schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - created_at
+        - is_published_all
+        - query
+        - query_id
+        - updated_at
+      filter: {}

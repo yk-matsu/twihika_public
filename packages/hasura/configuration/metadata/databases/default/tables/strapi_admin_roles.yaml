@@ -1,0 +1,3 @@
+table:
+  name: admin_roles
+  schema: strapi

@@ -1,0 +1,3 @@
+table:
+  name: strapi_webhooks
+  schema: strapi

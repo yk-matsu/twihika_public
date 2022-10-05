@@ -1,0 +1,3 @@
+table:
+  name: strapi_core_store_settings
+  schema: strapi

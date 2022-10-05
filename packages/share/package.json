@@ -1,0 +1,22 @@
+{
+  "name": "@twihika/share",
+  "sideEffects": false,
+  "description": "",
+  "version": "0.1.0",
+  "scripts": {
+    "prepare:publish": "rm -rf node_modules",
+    "clean": "rm -rf node_modules"
+  },
+  "dependencies": {
+    "csurf": "^1.11.0",
+    "getenv": "^1.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^3.2.10",
+    "query-string": "^7.1.1"
+  },
+  "devDependencies": {
+    "@types/csurf": "^1.11.2",
+    "@types/getenv": "^1.0.0",
+    "@types/jsonwebtoken": "^8.5.8"
+  }
+}

@@ -1,0 +1,3 @@
+table:
+  name: batch_search_queries_processing_state
+  schema: public
