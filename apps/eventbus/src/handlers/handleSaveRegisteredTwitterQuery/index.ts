@@ -71,19 +71,20 @@ export const handleSaveRegisteredTwitterQuery = async (
       const begin_id = tweets[tweets.length - 1].id_str;
       const count = tweets.length;
 
-      isTest()
-        ? await mockSaveMediaToS3AndDatabase(
-            client,
-            s3,
-            tweets,
-            masterQuery['query_id'],
-          )
-        : await saveMediaToS3AndDatabase(
-            client,
-            s3,
-            tweets,
-            masterQuery['query_id'],
-          );
+      // s3のコスト削減のためにコメントアウト
+      // isTest()
+      //   ? await mockSaveMediaToS3AndDatabase(
+      //       client,
+      //       s3,
+      //       tweets,
+      //       masterQuery['query_id'],
+      //     )
+      //   : await saveMediaToS3AndDatabase(
+      //       client,
+      //       s3,
+      //       tweets,
+      //       masterQuery['query_id'],
+      //     );
       notify.push('saveMediaToS3AndDatabase');
       // ***LINEに通知させたいものだけを個別に処理する
 

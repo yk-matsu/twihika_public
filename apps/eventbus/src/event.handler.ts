@@ -9,6 +9,10 @@ import {
   UserAggregate,
   UserEntity,
 } from '@twihika/prisma';
+import {
+  DeleteFromTweetsService,
+  createElasticClinet,
+} from '@twihika/elasticsearch';
 import { UserRecord } from '@twihika/auth';
 import { UserRepository } from './user.repository';
 import { FirebaseClient } from './client.firebase';
@@ -82,17 +86,19 @@ export class UserHandler {
     if (data.payload.payload.after.aggregateType == 'TweetDrilledRequested') {
       const conversation = new ConversationEntity({
         ...ConversationEntity.createEmpty().getData(),
-        ...{id: data.payload.payload.after.aggregateId },
+        ...{ id: data.payload.payload.after.aggregateId },
         ...{ users: [outboxPayload.firebaseUserId] },
       });
-      const messages =  new MessageEntity({
-          ...{id: outboxPayload.id},
-          type: "tweet",
-          sender: outboxPayload.firebaseUserId,
-          content: JSON.stringify(outboxPayload),
-        })
-        const agg = new ConversationAggregate(conversation, [messages])
-        await this.conversationRepository.save(agg)
+      const messages = new MessageEntity({
+        ...{ id: outboxPayload.id },
+        type: 'tweet',
+        sender: outboxPayload.firebaseUserId,
+        content: JSON.stringify(outboxPayload),
+      });
+      const agg = new ConversationAggregate(conversation, [messages]);
+      await this.conversationRepository.save(agg);
+    } else if (data.payload.payload.after.eventType == 'TweetDeleted') {
+      // TODO: ここでs3などの削除処理
     }
     return;
   }

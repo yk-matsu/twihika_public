@@ -1,3 +1,4 @@
 - "!include public_batch_search_queries_processing_state.yaml"
 - "!include public_master_batch_search_queries.yaml"
 - "!include public_master_batch_search_query_categories.yaml"
+- "!include public_master_batch_search_users.yaml"

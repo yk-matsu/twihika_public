@@ -893,6 +893,259 @@ export type Master_Batch_Search_Query_Categories_Variance_Fields = {
   query_category_id?: Maybe<Scalars['Float']>;
 };
 
+/** columns and relationships of "master_batch_search_users" */
+export type Master_Batch_Search_Users = {
+  __typename?: 'master_batch_search_users';
+  created_at: Scalars['timestamptz'];
+  is_not_sync_elastic: Scalars['Boolean'];
+  is_published_all: Scalars['Boolean'];
+  priority?: Maybe<Scalars['Int']>;
+  screen_name: Scalars['String'];
+  twitter_user_id: Scalars['String'];
+  updated_at: Scalars['timestamptz'];
+  user_category_id?: Maybe<Scalars['Int']>;
+};
+
+/** aggregated selection of "master_batch_search_users" */
+export type Master_Batch_Search_Users_Aggregate = {
+  __typename?: 'master_batch_search_users_aggregate';
+  aggregate?: Maybe<Master_Batch_Search_Users_Aggregate_Fields>;
+  nodes: Array<Master_Batch_Search_Users>;
+};
+
+/** aggregate fields of "master_batch_search_users" */
+export type Master_Batch_Search_Users_Aggregate_Fields = {
+  __typename?: 'master_batch_search_users_aggregate_fields';
+  avg?: Maybe<Master_Batch_Search_Users_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Master_Batch_Search_Users_Max_Fields>;
+  min?: Maybe<Master_Batch_Search_Users_Min_Fields>;
+  stddev?: Maybe<Master_Batch_Search_Users_Stddev_Fields>;
+  stddev_pop?: Maybe<Master_Batch_Search_Users_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Master_Batch_Search_Users_Stddev_Samp_Fields>;
+  sum?: Maybe<Master_Batch_Search_Users_Sum_Fields>;
+  var_pop?: Maybe<Master_Batch_Search_Users_Var_Pop_Fields>;
+  var_samp?: Maybe<Master_Batch_Search_Users_Var_Samp_Fields>;
+  variance?: Maybe<Master_Batch_Search_Users_Variance_Fields>;
+};
+
+
+/** aggregate fields of "master_batch_search_users" */
+export type Master_Batch_Search_Users_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Master_Batch_Search_Users_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Master_Batch_Search_Users_Avg_Fields = {
+  __typename?: 'master_batch_search_users_avg_fields';
+  priority?: Maybe<Scalars['Float']>;
+  user_category_id?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "master_batch_search_users". All fields are combined with a logical 'AND'. */
+export type Master_Batch_Search_Users_Bool_Exp = {
+  _and?: InputMaybe<Array<Master_Batch_Search_Users_Bool_Exp>>;
+  _not?: InputMaybe<Master_Batch_Search_Users_Bool_Exp>;
+  _or?: InputMaybe<Array<Master_Batch_Search_Users_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  is_not_sync_elastic?: InputMaybe<Boolean_Comparison_Exp>;
+  is_published_all?: InputMaybe<Boolean_Comparison_Exp>;
+  priority?: InputMaybe<Int_Comparison_Exp>;
+  screen_name?: InputMaybe<String_Comparison_Exp>;
+  twitter_user_id?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user_category_id?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "master_batch_search_users" */
+export enum Master_Batch_Search_Users_Constraint {
+  /** unique or primary key constraint on columns "twitter_user_id" */
+  BatchSearchUsersPkey = 'batch_search_users_pkey'
+}
+
+/** input type for incrementing numeric columns in table "master_batch_search_users" */
+export type Master_Batch_Search_Users_Inc_Input = {
+  priority?: InputMaybe<Scalars['Int']>;
+  user_category_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "master_batch_search_users" */
+export type Master_Batch_Search_Users_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  is_not_sync_elastic?: InputMaybe<Scalars['Boolean']>;
+  is_published_all?: InputMaybe<Scalars['Boolean']>;
+  priority?: InputMaybe<Scalars['Int']>;
+  screen_name?: InputMaybe<Scalars['String']>;
+  twitter_user_id?: InputMaybe<Scalars['String']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  user_category_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type Master_Batch_Search_Users_Max_Fields = {
+  __typename?: 'master_batch_search_users_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  priority?: Maybe<Scalars['Int']>;
+  screen_name?: Maybe<Scalars['String']>;
+  twitter_user_id?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user_category_id?: Maybe<Scalars['Int']>;
+};
+
+/** aggregate min on columns */
+export type Master_Batch_Search_Users_Min_Fields = {
+  __typename?: 'master_batch_search_users_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  priority?: Maybe<Scalars['Int']>;
+  screen_name?: Maybe<Scalars['String']>;
+  twitter_user_id?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user_category_id?: Maybe<Scalars['Int']>;
+};
+
+/** response of any mutation on the table "master_batch_search_users" */
+export type Master_Batch_Search_Users_Mutation_Response = {
+  __typename?: 'master_batch_search_users_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Master_Batch_Search_Users>;
+};
+
+/** on_conflict condition type for table "master_batch_search_users" */
+export type Master_Batch_Search_Users_On_Conflict = {
+  constraint: Master_Batch_Search_Users_Constraint;
+  update_columns?: Array<Master_Batch_Search_Users_Update_Column>;
+  where?: InputMaybe<Master_Batch_Search_Users_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "master_batch_search_users". */
+export type Master_Batch_Search_Users_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  is_not_sync_elastic?: InputMaybe<Order_By>;
+  is_published_all?: InputMaybe<Order_By>;
+  priority?: InputMaybe<Order_By>;
+  screen_name?: InputMaybe<Order_By>;
+  twitter_user_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_category_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: master_batch_search_users */
+export type Master_Batch_Search_Users_Pk_Columns_Input = {
+  twitter_user_id: Scalars['String'];
+};
+
+/** select columns of table "master_batch_search_users" */
+export enum Master_Batch_Search_Users_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  IsNotSyncElastic = 'is_not_sync_elastic',
+  /** column name */
+  IsPublishedAll = 'is_published_all',
+  /** column name */
+  Priority = 'priority',
+  /** column name */
+  ScreenName = 'screen_name',
+  /** column name */
+  TwitterUserId = 'twitter_user_id',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserCategoryId = 'user_category_id'
+}
+
+/** input type for updating data in table "master_batch_search_users" */
+export type Master_Batch_Search_Users_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  is_not_sync_elastic?: InputMaybe<Scalars['Boolean']>;
+  is_published_all?: InputMaybe<Scalars['Boolean']>;
+  priority?: InputMaybe<Scalars['Int']>;
+  screen_name?: InputMaybe<Scalars['String']>;
+  twitter_user_id?: InputMaybe<Scalars['String']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  user_category_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate stddev on columns */
+export type Master_Batch_Search_Users_Stddev_Fields = {
+  __typename?: 'master_batch_search_users_stddev_fields';
+  priority?: Maybe<Scalars['Float']>;
+  user_category_id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Master_Batch_Search_Users_Stddev_Pop_Fields = {
+  __typename?: 'master_batch_search_users_stddev_pop_fields';
+  priority?: Maybe<Scalars['Float']>;
+  user_category_id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Master_Batch_Search_Users_Stddev_Samp_Fields = {
+  __typename?: 'master_batch_search_users_stddev_samp_fields';
+  priority?: Maybe<Scalars['Float']>;
+  user_category_id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Master_Batch_Search_Users_Sum_Fields = {
+  __typename?: 'master_batch_search_users_sum_fields';
+  priority?: Maybe<Scalars['Int']>;
+  user_category_id?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "master_batch_search_users" */
+export enum Master_Batch_Search_Users_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  IsNotSyncElastic = 'is_not_sync_elastic',
+  /** column name */
+  IsPublishedAll = 'is_published_all',
+  /** column name */
+  Priority = 'priority',
+  /** column name */
+  ScreenName = 'screen_name',
+  /** column name */
+  TwitterUserId = 'twitter_user_id',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserCategoryId = 'user_category_id'
+}
+
+export type Master_Batch_Search_Users_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Master_Batch_Search_Users_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Master_Batch_Search_Users_Set_Input>;
+  where: Master_Batch_Search_Users_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Master_Batch_Search_Users_Var_Pop_Fields = {
+  __typename?: 'master_batch_search_users_var_pop_fields';
+  priority?: Maybe<Scalars['Float']>;
+  user_category_id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Master_Batch_Search_Users_Var_Samp_Fields = {
+  __typename?: 'master_batch_search_users_var_samp_fields';
+  priority?: Maybe<Scalars['Float']>;
+  user_category_id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Master_Batch_Search_Users_Variance_Fields = {
+  __typename?: 'master_batch_search_users_variance_fields';
+  priority?: Maybe<Scalars['Float']>;
+  user_category_id?: Maybe<Scalars['Float']>;
+};
+
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
@@ -908,6 +1161,10 @@ export type Mutation_Root = {
   delete_master_batch_search_query_categories?: Maybe<Master_Batch_Search_Query_Categories_Mutation_Response>;
   /** delete single row from the table: "master_batch_search_query_categories" */
   delete_master_batch_search_query_categories_by_pk?: Maybe<Master_Batch_Search_Query_Categories>;
+  /** delete data from the table: "master_batch_search_users" */
+  delete_master_batch_search_users?: Maybe<Master_Batch_Search_Users_Mutation_Response>;
+  /** delete single row from the table: "master_batch_search_users" */
+  delete_master_batch_search_users_by_pk?: Maybe<Master_Batch_Search_Users>;
   /** delete data from the table: "strapi.admin_permissions" */
   delete_strapi_admin_permissions?: Maybe<Strapi_Admin_Permissions_Mutation_Response>;
   /** delete single row from the table: "strapi.admin_permissions" */
@@ -982,6 +1239,10 @@ export type Mutation_Root = {
   insert_master_batch_search_query_categories?: Maybe<Master_Batch_Search_Query_Categories_Mutation_Response>;
   /** insert a single row into the table: "master_batch_search_query_categories" */
   insert_master_batch_search_query_categories_one?: Maybe<Master_Batch_Search_Query_Categories>;
+  /** insert data into the table: "master_batch_search_users" */
+  insert_master_batch_search_users?: Maybe<Master_Batch_Search_Users_Mutation_Response>;
+  /** insert a single row into the table: "master_batch_search_users" */
+  insert_master_batch_search_users_one?: Maybe<Master_Batch_Search_Users>;
   /** insert data into the table: "strapi.admin_permissions" */
   insert_strapi_admin_permissions?: Maybe<Strapi_Admin_Permissions_Mutation_Response>;
   /** insert a single row into the table: "strapi.admin_permissions" */
@@ -1072,6 +1333,12 @@ export type Mutation_Root = {
   update_master_batch_search_query_categories_by_pk?: Maybe<Master_Batch_Search_Query_Categories>;
   /** update multiples rows of table: "master_batch_search_query_categories" */
   update_master_batch_search_query_categories_many?: Maybe<Array<Maybe<Master_Batch_Search_Query_Categories_Mutation_Response>>>;
+  /** update data of the table: "master_batch_search_users" */
+  update_master_batch_search_users?: Maybe<Master_Batch_Search_Users_Mutation_Response>;
+  /** update single row of the table: "master_batch_search_users" */
+  update_master_batch_search_users_by_pk?: Maybe<Master_Batch_Search_Users>;
+  /** update multiples rows of table: "master_batch_search_users" */
+  update_master_batch_search_users_many?: Maybe<Array<Maybe<Master_Batch_Search_Users_Mutation_Response>>>;
   /** update data of the table: "strapi.admin_permissions" */
   update_strapi_admin_permissions?: Maybe<Strapi_Admin_Permissions_Mutation_Response>;
   /** update single row of the table: "strapi.admin_permissions" */
@@ -1206,6 +1473,18 @@ export type Mutation_RootDelete_Master_Batch_Search_Query_CategoriesArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Master_Batch_Search_Query_Categories_By_PkArgs = {
   query_category_id: Scalars['Int'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Master_Batch_Search_UsersArgs = {
+  where: Master_Batch_Search_Users_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Master_Batch_Search_Users_By_PkArgs = {
+  twitter_user_id: Scalars['String'];
 };
 
 
@@ -1434,6 +1713,20 @@ export type Mutation_RootInsert_Master_Batch_Search_Query_CategoriesArgs = {
 export type Mutation_RootInsert_Master_Batch_Search_Query_Categories_OneArgs = {
   object: Master_Batch_Search_Query_Categories_Insert_Input;
   on_conflict?: InputMaybe<Master_Batch_Search_Query_Categories_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Master_Batch_Search_UsersArgs = {
+  objects: Array<Master_Batch_Search_Users_Insert_Input>;
+  on_conflict?: InputMaybe<Master_Batch_Search_Users_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Master_Batch_Search_Users_OneArgs = {
+  object: Master_Batch_Search_Users_Insert_Input;
+  on_conflict?: InputMaybe<Master_Batch_Search_Users_On_Conflict>;
 };
 
 
@@ -1742,6 +2035,28 @@ export type Mutation_RootUpdate_Master_Batch_Search_Query_Categories_By_PkArgs =
 /** mutation root */
 export type Mutation_RootUpdate_Master_Batch_Search_Query_Categories_ManyArgs = {
   updates: Array<Master_Batch_Search_Query_Categories_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Master_Batch_Search_UsersArgs = {
+  _inc?: InputMaybe<Master_Batch_Search_Users_Inc_Input>;
+  _set?: InputMaybe<Master_Batch_Search_Users_Set_Input>;
+  where: Master_Batch_Search_Users_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Master_Batch_Search_Users_By_PkArgs = {
+  _inc?: InputMaybe<Master_Batch_Search_Users_Inc_Input>;
+  _set?: InputMaybe<Master_Batch_Search_Users_Set_Input>;
+  pk_columns: Master_Batch_Search_Users_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Master_Batch_Search_Users_ManyArgs = {
+  updates: Array<Master_Batch_Search_Users_Updates>;
 };
 
 
@@ -2179,6 +2494,12 @@ export type Query_Root = {
   master_batch_search_query_categories_aggregate: Master_Batch_Search_Query_Categories_Aggregate;
   /** fetch data from the table: "master_batch_search_query_categories" using primary key columns */
   master_batch_search_query_categories_by_pk?: Maybe<Master_Batch_Search_Query_Categories>;
+  /** fetch data from the table: "master_batch_search_users" */
+  master_batch_search_users: Array<Master_Batch_Search_Users>;
+  /** fetch aggregated fields from the table: "master_batch_search_users" */
+  master_batch_search_users_aggregate: Master_Batch_Search_Users_Aggregate;
+  /** fetch data from the table: "master_batch_search_users" using primary key columns */
+  master_batch_search_users_by_pk?: Maybe<Master_Batch_Search_Users>;
   /** fetch data from the table: "strapi.admin_permissions" */
   strapi_admin_permissions: Array<Strapi_Admin_Permissions>;
   /** fetch aggregated fields from the table: "strapi.admin_permissions" */
@@ -2346,6 +2667,29 @@ export type Query_RootMaster_Batch_Search_Query_Categories_AggregateArgs = {
 
 export type Query_RootMaster_Batch_Search_Query_Categories_By_PkArgs = {
   query_category_id: Scalars['Int'];
+};
+
+
+export type Query_RootMaster_Batch_Search_UsersArgs = {
+  distinct_on?: InputMaybe<Array<Master_Batch_Search_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Master_Batch_Search_Users_Order_By>>;
+  where?: InputMaybe<Master_Batch_Search_Users_Bool_Exp>;
+};
+
+
+export type Query_RootMaster_Batch_Search_Users_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Master_Batch_Search_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Master_Batch_Search_Users_Order_By>>;
+  where?: InputMaybe<Master_Batch_Search_Users_Bool_Exp>;
+};
+
+
+export type Query_RootMaster_Batch_Search_Users_By_PkArgs = {
+  twitter_user_id: Scalars['String'];
 };
 
 
@@ -7279,6 +7623,12 @@ export type Subscription_Root = {
   master_batch_search_query_categories_aggregate: Master_Batch_Search_Query_Categories_Aggregate;
   /** fetch data from the table: "master_batch_search_query_categories" using primary key columns */
   master_batch_search_query_categories_by_pk?: Maybe<Master_Batch_Search_Query_Categories>;
+  /** fetch data from the table: "master_batch_search_users" */
+  master_batch_search_users: Array<Master_Batch_Search_Users>;
+  /** fetch aggregated fields from the table: "master_batch_search_users" */
+  master_batch_search_users_aggregate: Master_Batch_Search_Users_Aggregate;
+  /** fetch data from the table: "master_batch_search_users" using primary key columns */
+  master_batch_search_users_by_pk?: Maybe<Master_Batch_Search_Users>;
   /** fetch data from the table: "strapi.admin_permissions" */
   strapi_admin_permissions: Array<Strapi_Admin_Permissions>;
   /** fetch aggregated fields from the table: "strapi.admin_permissions" */
@@ -7446,6 +7796,29 @@ export type Subscription_RootMaster_Batch_Search_Query_Categories_AggregateArgs 
 
 export type Subscription_RootMaster_Batch_Search_Query_Categories_By_PkArgs = {
   query_category_id: Scalars['Int'];
+};
+
+
+export type Subscription_RootMaster_Batch_Search_UsersArgs = {
+  distinct_on?: InputMaybe<Array<Master_Batch_Search_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Master_Batch_Search_Users_Order_By>>;
+  where?: InputMaybe<Master_Batch_Search_Users_Bool_Exp>;
+};
+
+
+export type Subscription_RootMaster_Batch_Search_Users_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Master_Batch_Search_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Master_Batch_Search_Users_Order_By>>;
+  where?: InputMaybe<Master_Batch_Search_Users_Bool_Exp>;
+};
+
+
+export type Subscription_RootMaster_Batch_Search_Users_By_PkArgs = {
+  twitter_user_id: Scalars['String'];
 };
 
 
@@ -7866,7 +8239,7 @@ export type Timestamptz_Comparison_Exp = {
 export type MasterQueriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MasterQueriesQuery = { __typename?: 'query_root', master_batch_search_queries: Array<{ __typename?: 'master_batch_search_queries', query: string, query_id: number }>, master_batch_search_query_categories: Array<{ __typename?: 'master_batch_search_query_categories', query_category_id: number, name: string }> };
+export type MasterQueriesQuery = { __typename?: 'query_root', master_batch_search_queries: Array<{ __typename?: 'master_batch_search_queries', query: string, query_id: number }>, master_batch_search_query_categories: Array<{ __typename?: 'master_batch_search_query_categories', query_category_id: number, name: string }>, master_batch_search_users: Array<{ __typename?: 'master_batch_search_users', twitter_user_id: string, screen_name: string }> };
 
 
 export const MasterQueriesDocument = gql`
@@ -7881,6 +8254,10 @@ export const MasterQueriesDocument = gql`
   master_batch_search_query_categories {
     query_category_id
     name
+  }
+  master_batch_search_users(where: {is_published_all: {_eq: true}}) {
+    twitter_user_id
+    screen_name
   }
 }
     `;

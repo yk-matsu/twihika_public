@@ -5,10 +5,10 @@
     "declaration": true,
     "strict": true,
     "lib": ["ES2020", "dom"],
-     "outDir": "./dist",
+    "outDir": "./dist",
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "types/tweet.d.ts"],
   "exclude": ["node_modules"]
 }

@@ -75,10 +75,27 @@ export default async function handler(
   const expiresIn = 60 * 60 * 24 * 5 * 1000;
   const session = req.body;
   try {
-    await auth.verifyIdToken(session.idToken);
-    const sessionCookie = await auth.createSessionCookie(session.idToken, {
-      expiresIn,
-    });
+    // const firebaseRaw = userRecord.tenantId
+    // ? await this.firebaseApp
+    //     .getAuth()
+    //     .tenantManager()
+    //     .authForTenant(userRecord.tenantId)
+    //     .getUser(userRecord.uid)
+    // : await this.firebaseApp.getAuth().getUser(userRecord.uid);
+    session.tenantId
+      ? await auth
+          .tenantManager()
+          .authForTenant(session.tenantId)
+          .verifyIdToken(session.idToken)
+      : await auth.verifyIdToken(session.idToken);
+    const sessionCookie = session.tenantId
+      ? await await auth
+          .tenantManager()
+          .authForTenant(session.tenantId)
+          .createSessionCookie(session.idToken, {expiresIn})
+      : await auth.createSessionCookie(session.idToken, {
+          expiresIn,
+        });
     res.setHeader(
       'Set-Cookie',
       cookie.serialize('__session', sessionCookie, {
@@ -90,6 +107,12 @@ export default async function handler(
         maxAge: expiresIn / 1000,
       })
     );
+    if (session.tenantId) {
+      return res.status(200).json({
+        body: sessionCookie,
+        ref: ref,
+      });
+    }
 
     try {
       if (await hasValidRedirectUrl(ref)) {

@@ -1,0 +1,23 @@
+{
+  "name": "@twihika/sandbox",
+  "main": "./dist/index.js",
+  "version": "0.1.0",
+  "scripts": {
+    "watch": "nodemon --exec \"npm run build\" -e ts --ignore 'dist/'",
+    "run": "nodemon --exec \"node --loader ts-node/esm src/index.ts\" -e ts --ignore 'dist/'"
+  },
+  "types": "./dist/index.d.ts",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ajv": "^8.11.0",
+    "getenv": "^1.0.0",
+    "@twihika/share": "*"
+  },
+  "description": "",
+  "devDependencies": {
+    "@types/getenv": "^1.0.0",
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.9.1"
+  }
+}

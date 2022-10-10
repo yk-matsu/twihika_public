@@ -1,46 +1,22 @@
 // middleware.ts
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-// import admin from "firebase-admin";
-// const app = admin.initializeApp({
-//   //@ts-ignore
-//   credential: admin.credential.cert(secret),
-// });
-// const auth = app.auth();
+import {NextResponse} from 'next/server';
+import type {NextRequest} from 'next/server';
+import {parse} from 'cookie';
+import { isProduction } from '@twihika/env';
 
 export async function middleware(request: NextRequest) {
-  // TODO: emplement すべてのpostリクエストにcsrfの検証を行う
-  // Setting cookies on the response
-  request.cookies.get("__session");
-  console.log(request.url);
-  const parsed = new URL(request.url);
-  console.log(request.cookies.get("__session"));
-  const token = request.cookies.get("__session")
-  // if (token) {
-  //   // await auth.verifySessionCookie(token);
-  //   const response = NextResponse.redirect("https://event-catalog.twi-hika.com")
-  //   return response
-  // }
-  console.log(parsed.pathname);
-  const response = NextResponse.next();
-  response.cookies.set("vercel", "fast");
-  response.cookies.set("vercel", "fast", { path: "/test" });
-
-  // Getting cookies from the request
-  const cookie = request.cookies.get("vercel");
-  console.log(cookie); // => 'fast'
-  const allCookies = request.cookies.entries();
-  console.log(allCookies); // => [{ key: 'vercel', value: 'fast' }]
-  const { value, options } = response.cookies.getWithOptions("vercel");
-  console.log(value); // => 'fast'
-  console.log(options); // => { Path: '/test' }
-
-  // Deleting cookies
-  response.cookies.delete("vercel");
-  response.cookies.clear();
-
-  return response;
+  if (
+    request.headers.get('cookie') &&
+    parse(request.headers.get('cookie')!)['__session']
+  ) {
+    return NextResponse.next();
+  }
+  const url = isProduction()
+      ? `https://id.twi-hika.com/login?ref=${request.url.toString()}`
+      : `http://localhost:4002/login?ref=${request.url.toString()}`;
+      // apiには意味ないs
+  return NextResponse.rewrite(url);
 }
 export const config = {
-  matcher: ["/register"],
+  matcher: ['/api/auth/:path*'],
 };

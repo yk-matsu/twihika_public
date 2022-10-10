@@ -3,8 +3,12 @@ query MasterQueries {
     query
     query_id
   }
-    master_batch_search_query_categories{
-      query_category_id
+  master_batch_search_query_categories{
+    query_category_id
     name
+  }
+  master_batch_search_users( where: { is_published_all: {_eq: true}}){
+    twitter_user_id
+    screen_name
   }
 }

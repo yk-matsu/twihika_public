@@ -1,0 +1,3 @@
+table:
+  name: master_batch_search_users
+  schema: public

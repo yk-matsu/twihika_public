@@ -67,10 +67,11 @@ export const callTwitterApiWithUserAccessToken = async (url, { secret, accessTok
 
 
 export const createBearerTokenAccessClientForV1 = (): AxiosInstance => {
+  const token = getenv('TWIHIKA_TWITTER_BEARER_TOKEN')
   return axios.create({
     baseURL: `https://api.twitter.com`,
     headers: {
-      'Authorization': `Bearer ${getenv('TWIHIKA_TWITTER_BEARER_TOKEN')}`
+      'Authorization': `Bearer ${token}`
     }
   })
 }

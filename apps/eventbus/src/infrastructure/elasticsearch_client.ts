@@ -1,6 +1,6 @@
 import { Client as ElasticClient } from '@elastic/elasticsearch';
 import * as getenv from 'getenv';
-import axios, { AxiosInstance } from 'axios';
+const axios = require('axios') ;
 
 export const createElasticClinet = (): ElasticClient => {
   return getenv('DEVELOPMENT_MODE') == 'production'
@@ -14,7 +14,7 @@ export const createElasticClinet = (): ElasticClient => {
       });
 };
 
-export const createAxiosElasticClinet = (): AxiosInstance => {
+export const createAxiosElasticClinet = (): typeof axios => {
   return axios.create({
     baseURL: getenv('TWI_HIKA_ELASTICSEARCH_ORIGIN'),
     headers: {
