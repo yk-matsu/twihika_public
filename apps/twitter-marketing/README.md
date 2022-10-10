@@ -23,16 +23,16 @@ apiベースではなく、コードそのものをリポジトリで共有し�
 というのも、管理画面から呼び出すものとユーザー向けのサービスで呼び出すものを分けると分けた分だけ、
 どこで何が使われるのかわからない(調査コストが上がる)のでコードベースで処理を共有している。
 
-最近のフロントの呼び方に合わせて、[queryとmutation](https://github.com/katakatataan/twi_hika.com/tree/main/packages/elasticsearch/src)でディレクトリを分けてる。
+最近のフロントの呼び方に合わせて、[queryとmutation](https://github.com/katakatataan/twihika_public/tree/main/packages/elasticsearch/src)でディレクトリを分けてる。
 
 
-[日付絞り込みがある場合は、createdAtFilterパラメータと必須のqueryIdsを一緒に問い合わせる。](https://github.com/katakatataan/twi_hika.com/blob/main/packages/elasticsearch/src/queries/tweets.ts#L5-L166)
+[日付絞り込みがある場合は、createdAtFilterパラメータと必須のqueryIdsを一緒に問い合わせる。](https://github.com/katakatataan/twihika_public/blob/main/packages/elasticsearch/src/queries/tweets.ts#L5-L166)
 
 
 
 書き込みは、Nestjsでおこなっている。そこに複雑性を持たせることによって読み取りの処理を簡略化できる！
 
-[データの取得元は、RDBでもS3でもレコメンド系のモデルでもよくて任意のリードモデルを作ることができる！](https://github.com/katakatataan/twi_hika.com/blob/main/apps/eventbus/src/handlers/handleSaveTweetFromS3ToElastic/index.ts#L152-L159)
+[データの取得元は、RDBでもS3でもレコメンド系のモデルでもよくて任意のリードモデルを作ることができる！](https://github.com/katakatataan/twihika_public/blob/main/apps/eventbus/src/handlers/handleSaveTweetFromS3ToElastic/index.ts#L152-L159)
 
 
 
@@ -60,21 +60,21 @@ https://zenn.dev/mutex/articles/react-query-state-mgmt
 
 ##### 検索周りのReactの実装コンポーネント設計ページ全体のコンポーネント
 
-[コンテキストの作成](https://github.com/katakatataan/twi_hika.com/blob/main/apps/twitter-marketing/pages/index.tsx#L101-L120)
+[コンテキストの作成](https://github.com/katakatataan/twihika_public/blob/main/apps/twitter-marketing/pages/index.tsx#L101-L120)
 
 
 データの取得結果や、リストの再更新するためのinvalidation関数をわたす。
 
 参考にした記事にもあるように取得結果だけでなく、
 
-[reactQueryをそのまま渡す。](https://github.com/katakatataan/twi_hika.com/blob/main/apps/twitter-marketing/pages/index.tsx#L188-L207)
+[reactQueryをそのまま渡す。](https://github.com/katakatataan/twihika_public/blob/main/apps/twitter-marketing/pages/index.tsx#L188-L207)
 
 
 
 ##### 検索周りのReactの実装コンポーネント設計一覧のTwitterカードコンポーネント
 
 一覧のカード系のコンポーネントも
-[Contextを使用して](https://github.com/katakatataan/twi_hika.com/blob/main/apps/twitter-marketing/components/TwitterCard.tsx#L59-L74)
+[Contextを使用して](https://github.com/katakatataan/twihika_public/blob/main/apps/twitter-marketing/components/TwitterCard.tsx#L59-L74)
 ContainerコンポーネントとPresentationalコンポーネントを表現
 
 
@@ -82,4 +82,4 @@ ContainerコンポーネントとPresentationalコンポーネントを表現
 ##### 検索周りのReactの実装コンポーネント設計セミモーダルの検索絞り込みUIコンポーネント
 
 
-https://github.com/katakatataan/twi_hika.com/blob/main/apps/twitter-marketing/components/Semimodal.tsx#L68-L118
+https://github.com/katakatataan/twihika_public/blob/main/apps/twitter-marketing/components/Semimodal.tsx#L68-L118
