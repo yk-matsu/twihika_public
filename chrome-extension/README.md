@@ -205,6 +205,8 @@ WIP SpreadSheetに書き込み
 
 ### Chrome拡張:タイムトラッキングアップ:実装
 
+![notification demo](https://storage.googleapis.com/pubic-image-for-twi-hika-chrome-extension/notification.png)
+
 定期実行のアラームを作成！。選択肢を通知APIで表示
 ```background.ts
 chrome.alarms.create('testAlarm', {

@@ -2,14 +2,8 @@ import {Layout} from '../components/layout';
 import type {NextPageContext} from 'next';
 import {WithSubnavigation} from '../components/navbar';
 import {ScrollingSemiModal} from '@twihika/ui/Modal';
-import {
-  Master_Batch_Search_Queries,
-  Master_Batch_Search_Query_Categories,
-  Master_Batch_Search_Users,
-} from '@twihika/hasura';
+import {Master_Batch_Search_Queries} from '@twihika/hasura';
 import {decodeFromSessinoCokie} from '../serverside/firebase-admin';
-import {searchState} from '../store/searchState';
-import {Tweet} from '../components/Tweet';
 import {FixedSearchHeader} from '../components/fixed_search_header';
 import ReactPaginate from 'react-paginate';
 import {
@@ -20,9 +14,6 @@ import {
   HStack,
   Stack,
   useDisclosure,
-  Image,
-  SimpleGrid,
-  useToast,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -35,19 +26,9 @@ import {
   ModalFooter,
 } from '@chakra-ui/react';
 import {useRouter} from 'next/router';
-import {
-  MutableRefObject,
-  PropsWithChildren,
-  ReactElement,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import {dataV1ToV2, TweeetLiteType} from '../components/lib/TweetV1ToV1';
-import {useRecoilState} from 'recoil';
+import {PropsWithChildren, ReactElement, useContext, useRef} from 'react';
+import {dataV1ToV2} from '../components/lib/TweetV1ToV1';
 import queryString from 'query-string';
-import useSWR, {SWRConfig} from 'swr';
 import {ParsedUrlQuery} from 'querystring';
 import Link from 'next/link';
 import {isProduction} from '@twihika/env';
@@ -59,6 +40,12 @@ import {
 } from '@tanstack/react-query';
 import {TweetsApiResponse} from './api/tweets';
 import axios from 'axios';
+type PickedMaster_Batch_Search_Queries = Partial<
+  Pick<Master_Batch_Search_Queries, 'query_id' | 'query'> & {
+    selected: boolean;
+    count: number;
+  }
+>;
 
 export async function getServerSideProps(context: NextPageContext) {
   const key = `/api/tweets?${queryString.stringify(context.query)}`;
@@ -97,34 +84,18 @@ type Props<T> = T extends (...args: any[]) => infer Prop
   : never;
 
 type PageProps = Props<typeof getServerSideProps>['props'];
-type ElasticTweet = PageProps['fallback']['result']['hits']['hits'][0];
-type MappedConversations = PageProps['fallback']['conversations'];
-type Conversations = PageProps['fallback']['conversations'] extends {
+
+export type ElasticTweet = PageProps['fallback']['result']['hits']['hits'][0];
+export type MappedConversations = PageProps['fallback']['conversations'];
+export type Conversations = PageProps['fallback']['conversations'] extends {
   [key in string]: infer Conver;
 }
   ? Conver
   : never;
 
-type PickedMaster_Batch_Search_QueryCategories = Partial<
-  Pick<Master_Batch_Search_Query_Categories, 'query_category_id' | 'name'> & {
-    selected: boolean;
-    count: number;
-  }
->;
-
-type PickedMaster_Batch_Search_Queries = Partial<
-  Pick<Master_Batch_Search_Queries, 'query_id' | 'query'> & {
-    selected: boolean;
-    count: number;
-  }
->;
-
-type PickedMaster_Batch_Search_Users_Queries = Pick<
-  Master_Batch_Search_Users,
-  'twitter_user_id' | 'screen_name'
-> & {selected: boolean};
-import {createContext, ReactNode, FC} from 'react';
-import {ApiTweetCountResponse} from './api/tweets/count';
+import {createContext} from 'react';
+import {TwitterCardWithProvider} from '@components/TwitterCard';
+import {SemiModalWithProvider} from '@components/Semimodal';
 
 ////////////////////////////////////////////////////////
 export type IndexPageContext = {
@@ -149,7 +120,7 @@ export const useIndexPageContext: UseIndexPageContext = () => {
 };
 ////////////////////////////////////////////////////////
 
-const useApiAuthTweetDrilledDownPostMutation = () => {
+export const useApiAuthTweetDrilledDownPostMutation = () => {
   return useMutation((tweet: ElasticTweet) => {
     return axios.post(
       `/api/auth/tweet_drilled_down`,
@@ -158,19 +129,19 @@ const useApiAuthTweetDrilledDownPostMutation = () => {
   });
 };
 
-const useApiAuthTweetDeleteMutation = () => {
+export const useApiAuthTweetDeleteMutation = () => {
   return useMutation((tweetId: string) => {
     return axios.delete(`/api/auth/tweets/${tweetId}`);
   });
 };
 
-const useApiAuthTweetUserDeleteMutation = () => {
+export const useApiAuthTweetUserDeleteMutation = () => {
   return useMutation((tweetUserId: string) => {
     return axios.delete(`/api/auth/tweet_users/${tweetUserId}`);
   });
 };
 
-type MutationResult<T> = T extends (...args: any[]) => infer Result
+export type MutationResult<T> = T extends (...args: any[]) => infer Result
   ? Result
   : never;
 
@@ -221,185 +192,6 @@ export default function IndexPageWithProvider(props: PageProps) {
   );
 }
 
-const clientSideLogingRequiredRedirect = () => {
-  window.location.href = isProduction()
-    ? `https://id.twi-hika.com/login?ref=${window.location.href}`
-    : `http://localhost:4002/login?ref=${window.location.href}`;
-};
-const wait = (milisec: number) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(undefined);
-    }, milisec);
-  });
-};
-
-////////////////////////////////////////////////////////
-export type TwitterCardContext = {
-  useApiAuthTweetDrilledDownPostMutation: () => MutationResult<
-    typeof useApiAuthTweetDrilledDownPostMutation
-  >;
-  useApiAuthTweetDeleteMutation: () => MutationResult<
-    typeof useApiAuthTweetDeleteMutation
-  >;
-  useApiAuthTweetUserDeleteMutation: () => MutationResult<
-    typeof useApiAuthTweetUserDeleteMutation
-  >;
-};
-
-export const twitterCardContext = createContext<TwitterCardContext | undefined>(
-  undefined
-);
-
-const {Provider: TwitterCardProvider} = twitterCardContext;
-
-type UseTwitterCardContext = () => TwitterCardContext;
-
-export const useTwitterCardContext: UseTwitterCardContext = () => {
-  const context = useContext(twitterCardContext);
-  if (!context) throw new Error(); // Custom Error
-
-  return context;
-};
-
-function TwitterCardWithProvider(props: {
-  tweet: ElasticTweet;
-  conversations: Conversations;
-}) {
-  return (
-    <TwitterCardProvider
-      value={{
-        useApiAuthTweetDrilledDownPostMutation,
-        useApiAuthTweetUserDeleteMutation,
-        useApiAuthTweetDeleteMutation,
-      }}
-    >
-      <TwitterCard {...props}></TwitterCard>
-    </TwitterCardProvider>
-  );
-}
-function TwitterCard(props: {
-  tweet: ElasticTweet;
-  conversations: Conversations;
-}) {
-  const {tweet, conversations} = props;
-  const {
-    useApiAuthTweetDeleteMutation,
-    useApiAuthTweetUserDeleteMutation,
-    useApiAuthTweetDrilledDownPostMutation,
-  } = useTwitterCardContext();
-  const authTweetDeleteMutation = useApiAuthTweetDeleteMutation();
-  const authTweetUserDeleteMutation = useApiAuthTweetUserDeleteMutation();
-  const authTweetDrilledDownPostMutation =
-    useApiAuthTweetDrilledDownPostMutation();
-  const {apiTweetsResultInvalidate, apiTweetDrilledDownResult} =
-    useIndexPageContext();
-  const toast = useToast();
-
-  return (
-    <Box px={'2'}>
-      <Tweet metadata={dataV1ToV2(tweet._source!)}></Tweet>
-      {/* <Button ref={btnRef2} onClick={onOpen2} color="black">
-                分類
-              </Button> */}
-
-      <Button
-        isLoading={authTweetDeleteMutation.isLoading}
-        onClick={async () => {
-          authTweetDeleteMutation.mutate(tweet._source?.id_str!, {
-            onError: async (error, variables, context) => {
-              toast({
-                title: 'ログインが必要です。リダイレクトします。',
-                status: 'error',
-                isClosable: true,
-              });
-              clientSideLogingRequiredRedirect();
-            },
-            onSuccess: async () => {
-              await wait(1000);
-              apiTweetsResultInvalidate();
-            },
-          });
-        }}
-      >
-        関連なし
-      </Button>
-
-      <Button
-        isLoading={authTweetUserDeleteMutation.isLoading}
-        onClick={async () => {
-          authTweetUserDeleteMutation.mutate(tweet._source?.user.id_str!, {
-            onError: async (error, variables, context) => {
-              toast({
-                title: 'ログインが必要です。リダイレクトします。',
-                status: 'error',
-                isClosable: true,
-              });
-              await wait(3000);
-              clientSideLogingRequiredRedirect();
-            },
-            onSuccess: async () => {
-              await wait(1000);
-              apiTweetsResultInvalidate();
-            },
-          });
-        }}
-      >
-        Botユーザーとして報告
-      </Button>
-
-      <Button
-        isLoading={authTweetDrilledDownPostMutation.isLoading}
-        onClick={async () => {
-          authTweetDrilledDownPostMutation.mutate(tweet, {
-            onError: async (error, variables, context) => {
-              toast({
-                title: 'ログインが必要です。リダイレクトします。',
-                status: 'error',
-                isClosable: true,
-              });
-              await wait(3000);
-              clientSideLogingRequiredRedirect();
-            },
-            onSuccess: async () => {
-              await wait(1000);
-              apiTweetsResultInvalidate();
-            },
-          });
-        }}
-      >
-        {apiTweetDrilledDownResult!.data.includes(tweet._source!.id_str!) ||
-        authTweetDrilledDownPostMutation.isSuccess
-          ? '開始済み'
-          : 'ChatStart'}
-      </Button>
-      <SimpleGrid columns={30} spacing={10} mt={4}>
-        {conversations.map(item => {
-          return (
-            <Link
-              key={`${tweet._source!.id_str!}:${item.firebaseUserId}`}
-              href={`http://${
-                process.env.DEVELOPMENT_MODE == 'local'
-                  ? 'localhost:4999'
-                  : 'chat.twi-hika.com'
-              }/${tweet._source!.id_str!}:${item.firebaseUserId}`}
-            >
-              <Box w="40px" h="40px">
-                {/* @ts-ignore */}
-                <Image
-                  rounded={'full'}
-                  src={item.firebaseUser?.photoUrl!}
-                ></Image>
-              </Box>
-            </Link>
-          );
-        })}
-      </SimpleGrid>
-    </Box>
-  );
-}
-////////////////////////////////////////////////////////
-
 function Main(props: PageProps) {
   const {
     apiTweetsResult,
@@ -407,8 +199,6 @@ function Main(props: PageProps) {
     apiTweetDrilledDownResult,
   } = useIndexPageContext();
   const {data: apiTweets} = apiTweetsResult;
-  const {data: apiTweetDrilledDown} = apiTweetDrilledDownResult;
-
   const {query} = props;
   const router = useRouter();
 
@@ -429,7 +219,7 @@ function Main(props: PageProps) {
       <Box w="100vw" whiteSpace={'nowrap'} overflowX={'scroll'} py={2}>
         <WordList
           categories={apiTweets!.queryCount}
-          inheritParams={{...router.query,...{page: undefined}}}
+          inheritParams={{...router.query, ...{page: undefined}}}
         ></WordList>
       </Box>
       <Divider></Divider>
@@ -511,242 +301,7 @@ function Main(props: PageProps) {
   );
 }
 
-
-////////////////////////////////////////////////////////
-export type SemiModalContext = {
-  apiTweetsCountResult: DefinedUseQueryResult<ApiTweetCountResponse>;
-  apiTweetsCountInvalidate: () => void;
-};
-
-export const semiModalContext = createContext<SemiModalContext | undefined>(
-  undefined
-);
-
-const {Provider: SemiModalProvider} = semiModalContext;
-
-type UseSemiModalContext = () => SemiModalContext;
-
-export const useSemiModalContext: UseSemiModalContext = () => {
-  const context = useContext(semiModalContext);
-  if (!context) throw new Error(); // Custom Error
-
-  return context;
-};
-
-type ModalProps = PropsWithChildren<{
-  btnRef: MutableRefObject<null>;
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-  defaultCategory?: string;
-  defaultRange?: string;
-  query: ParsedUrlQuery;
-  categoryCount: PickedMaster_Batch_Search_QueryCategories[];
-}>;
-
-////////////////////////////////////////////////////////
-function SemiModalWithProvider(props: ModalProps) {
-  const {query} = useRouter();
-  const [search, setSearch] = useRecoilState(searchState);
-  const client = useQueryClient();
-  const router = useRouter();
-
-  const onSubmit = () => {
-    router.push({
-      pathname: '/',
-      query: queryString.stringify({
-        ...props.query,
-        ...query,
-        createdAtGte: search.createdAtGte,
-      }),
-    });
-    props.onClose();
-  };
-
-  const apiTweetsCountKey = `/api/tweets/count?${queryString.stringify({
-    query,
-    createdAtGte: search.createdAtGte,
-  })}`;
-  const apiTweetsCountResult = useQuery<ApiTweetCountResponse>(
-    [apiTweetsCountKey],
-    () => fetcher(apiTweetsCountKey),
-    {initialData: {queryCount: [], categoryCount: props.categoryCount as any}}
-  );
-  const apiTweetsCountInvalidate = () => {
-    client.invalidateQueries([apiTweetsCountKey]);
-  };
-  const handleDataRangeItemClick = (createdAtGte: string) => {
-    apiTweetsCountInvalidate();
-    setSearch({...search, ...{createdAtGte}});
-  };
-
-  return (
-    <SemiModalProvider
-      value={{
-        apiTweetsCountResult,
-        apiTweetsCountInvalidate,
-      }}
-    >
-      {/* <ScrollingSemiModal {...props}></ScrollingSemiModal> */}
-      <ScrollingSemiModalContainer
-        {...props}
-        onSubmit={onSubmit}
-        handleDataRangeItemClick={handleDataRangeItemClick}
-      ></ScrollingSemiModalContainer>
-    </SemiModalProvider>
-  );
-}
-
-function ScrollingSemiModalContainer(props: {
-  btnRef: MutableRefObject<null>;
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-  onSubmit: () => void;
-  defaultCategory?: string;
-  defaultRange?: string;
-  query: ParsedUrlQuery;
-  categoryCount: PickedMaster_Batch_Search_QueryCategories[];
-  handleDataRangeItemClick: (dateString: string) => void;
-}) {
-  const {
-    btnRef,
-    isOpen,
-    onClose,
-    onOpen,
-    onSubmit,
-    defaultRange = 'now-1y',
-    handleDataRangeItemClick,
-  } = props;
-  const {apiTweetsCountInvalidate, apiTweetsCountResult} =
-    useSemiModalContext();
-  const {data} = apiTweetsCountResult;
-  const dateRanges = [
-    {date: 'now-1M', selected: false},
-    {date: 'now-3M', selected: false},
-    {date: 'now-1y', selected: false},
-    {date: 'now-1d', selected: false},
-  ].map(item => {
-    return item.date == defaultRange
-      ? {...item, ...{selected: true}}
-      : {...item, ...{selected: false}};
-  });
-
-  return (
-    <ScrollingSemiModal
-      btnRef={btnRef}
-      isOpen={isOpen}
-      onOpen={onOpen}
-      onClose={onClose}
-      onSubmit={onSubmit}
-    >
-      <Heading as="h2" size="md" noOfLines={1} fontWeight={'normal'} mt={'4'}>
-        カテゴリー
-      </Heading>
-       <CategoryList categories={data.categoryCount}></CategoryList>
-      <Heading as="h2" size="md" noOfLines={1} fontWeight={'normal'} mt={'4'}>
-        期間
-      </Heading>
-      <DateRangeList
-        dataRanges={dateRanges}
-        onClick={handleDataRangeItemClick}
-      ></DateRangeList>
-      <Stack></Stack>
-    </ScrollingSemiModal>
-  );
-}
-
-const DateRangeList = (
-  props: PropsWithChildren<{
-    dataRanges: {date: string; selected: boolean}[];
-    onClick: (dateRageString: string) => void;
-  }>
-): ReactElement => {
-  return (
-    <>
-      {props.dataRanges.map(item => {
-        return (
-          <Button
-            key={item.date}
-            mt={'2'}
-            mr={'2'}
-            isActive={item.selected}
-            onClick={() => {
-              props.onClick(item.date);
-            }}
-          >
-            {item.date}
-          </Button>
-        );
-      })}
-    </>
-  );
-};
-
-const CategoryList = (
-  props: PropsWithChildren<{
-    categories: PickedMaster_Batch_Search_QueryCategories[];
-  }>
-): ReactElement => {
-  const [categoriesSelected, categoriesSelectedSelected] = useState<
-    PickedMaster_Batch_Search_QueryCategories[]
-  >(props.categories);
-
-  return (
-    <>
-      {props.categories.map(item => {
-        return (
-          <Button
-            rightIcon={<div>{item.count}</div>}
-            disabled={!item.count}
-            key={item.query_category_id}
-            mt={'2'}
-            mr={'2'}
-            isActive={item.selected}
-          >
-            {item.name}
-          </Button>
-        );
-      })}
-    </>
-  );
-};
-
-const WordList = (
-  props: PropsWithChildren<{
-    categories: PickedMaster_Batch_Search_Queries[];
-    inheritParams: ParsedUrlQuery;
-  }>
-): ReactElement => {
-  return (
-    <>
-      {props.categories.map(item => {
-        return (
-          <Link
-            key={item.query_id}
-            href={`?${queryString.stringify({
-              ...props.inheritParams,
-              queryIds: item.query_id,
-              paege: undefined,
-            })}`}
-          >
-            <Button
-              rightIcon={<div>{item.count}</div>}
-              disabled={!item.count}
-              mt={'2'}
-              mr={'2'}
-              isActive={item.selected}
-            >
-              {item.query}
-            </Button>
-          </Link>
-        );
-      })}
-    </>
-  );
-};
-
-async function fetcher(key: string) {
+export async function fetcher(key: string) {
   return axios(key).then(res => res.data);
 }
 
@@ -789,6 +344,40 @@ function PaginatedItems({itemsPerPage, query, itemCount}: any) {
     </>
   );
 }
+
+const WordList = (
+  props: PropsWithChildren<{
+    categories: PickedMaster_Batch_Search_Queries[];
+    inheritParams: ParsedUrlQuery;
+  }>
+): ReactElement => {
+  return (
+    <>
+      {props.categories.map(item => {
+        return (
+          <Link
+            key={item.query_id}
+            href={`?${queryString.stringify({
+              ...props.inheritParams,
+              queryIds: item.query_id,
+              paege: undefined,
+            })}`}
+          >
+            <Button
+              rightIcon={<div>{item.count}</div>}
+              disabled={!item.count}
+              mt={'2'}
+              mr={'2'}
+              isActive={item.selected}
+            >
+              {item.query}
+            </Button>
+          </Link>
+        );
+      })}
+    </>
+  );
+};
 
 Main.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
