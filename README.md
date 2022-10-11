@@ -3,7 +3,7 @@
 ![twitter-marketing](https://storage.googleapis.com/pubic-image-for-twi-hika-chrome-extension/penguine_twitter_marketing%20(1).png)![twihika-id](https://storage.googleapis.com/pubic-image-for-twi-hika-chrome-extension/penguine_id_logo.png)<img src="https://storage.googleapis.com/pubic-image-for-twi-hika-chrome-extension/Chrome-logo.png" width="100" />
 
 
-以下TwiHikaは私の作っているサービスのブランド名(?)です（w)
+以下TwiHikaは私の作っているちょっとしたツール群の名前です。
 
 自分で使うツールやスニペットを再利用可能な単位で分割してmonorepoで開発してます。
 
