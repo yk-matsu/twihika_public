@@ -1,8 +1,9 @@
 import * as crypto from 'crypto'
-import axios, { AxiosInstance } from 'axios'
+const axios = require('axios')
 import * as queryString from 'query-string'
 import * as getenv from 'getenv'
 import { validateAsTweet } from '../shared/tweet_output_validator'
+import { AxiosInstance } from 'axios'
 
 const getNonce = () => {
   const wordCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';

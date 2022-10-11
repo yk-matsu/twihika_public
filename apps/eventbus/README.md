@@ -43,7 +43,7 @@ firestoreを使った登録処理サンプル。
 controllerとrepositoryは最低限分けて実装。
 
 [controller実装リンク](https://github.com/katakatataan/twihika_public/blob/main/apps/eventbus/src/conversations/conversations.controller.ts)
-https://github.com/katakatataan/twihika_public/tree/main/apps/eventbus/src/conversations
+
 [repository実装リンク](https://github.com/katakatataan/twihika_public/blob/main/apps/eventbus/src/conversations/conversatoin.repository.ts#L15-L36)
 
 ### Outboxパターンで取得したイベントをWebSocket(GraphQL Subscriptionで配信)

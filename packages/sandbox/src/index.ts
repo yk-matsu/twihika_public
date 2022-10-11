@@ -1,6 +1,7 @@
-import axios, {AxiosInstance} from 'axios';
 import * as queryString from 'query-string';
 import getenv from 'getenv';
+import type { AxiosInstance } from "axios"
+const axios = require('axios') ;
 
 export const createBearerTokenAccessClientForV1 = (): AxiosInstance => {
   return axios.create({
