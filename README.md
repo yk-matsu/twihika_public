@@ -23,9 +23,6 @@
 - [twihikaイベントバスNestjs](#twihikaイベントバスNestjs)
   - [twihikaidイベントバスNestjs(コードベース)](/apps/eventbus)
 
-- [Chrome拡張:文章内の単語頻出度チェック](#chrome拡張文章内の単語頻出度チェック)
-- [Chrome拡張:開発用のfirebase認証トークンの取得](#chrome拡張開発用のfirebase認証トークンの取得)
-- [Chrome拡張:タイムトラッキングアップ](#chrome拡張タイムトラッキングアップ)
 
 ## サービス全体像
 
@@ -121,54 +118,4 @@ insertして、eventbusの標準出力にイベントが送信されていると
 
 [コードベースの詳細はこちら](/apps/eventbus)
 
-### Chrome拡張:文章内の単語頻出度チェック
-
-<img src="https://storage.googleapis.com/pubic-image-for-twi-hika-chrome-extension/Chrome-logo.png" width="100" />
-
-SEO系の記事を書くときに競合の単語を抜き取り、その頻出度から自分の記事のリライトするためのちょっとしたツール。
-
-![Chrome拡張:文章内の単語頻出度チェックデモ](https://storage.googleapis.com/pubic-image-for-twi-hika-chrome-extension/Kapture%202022-10-10%20at%2002.55.54.gif)
-
-#### Chrome拡張:文章内の単語頻出度チェック:使用されている技術
-
-- TypeScript
-- jQuery
-- elasticsearch
-
-#### Chrome拡張:文章内の単語頻出度チェック:実装されている機能
-
-- コンテキストメニューを使った機能(右クリックで選択した文をサーバーに送信)
-- サーバーから取得した結果を画面に表示
-
-[コードベースの詳細はこちら](/chrome-extension)
-
-
-## Chrome拡張:開発用のfirebase認証トークンの取得
-
-OneLoginとか、OktaのChrome拡張のように、認証したトークンなどを付与してリクエストする簡易的な仕組みを考える。
-
-・FirebaseのCookieベースと連携したTokenの場合
-・FirebaseのlocalStorageと連携したTokenの場合
-
-![firebase demo](https://storage.googleapis.com/pubic-image-for-twi-hika-chrome-extension/Kapture%202022-10-10%20at%2013.53.31.gif)
-
-[コードベースの詳細はこちら](/chrome-extension)
-
-
-### Chrome拡張:タイムトラッキングアップ
-
-![notification demo](https://storage.googleapis.com/pubic-image-for-twi-hika-chrome-extension/notification.png)
-
-前職でやっていた日時採算が激しくめんどくさかったので、それを効率化するアプリ。
-めんどくさい、n分ごとに何をしていたかを、
-
-- Salesforceを開く
-- Salesforceにログインする
-- やっていた作業を選択する
-- やっていた時間を入力する
-- 登録する。
-
-しかも、作業の選択と登録のUIがいけてなかった。
-
-[コードベースの詳細はこちら](/chrome-extension)
 
