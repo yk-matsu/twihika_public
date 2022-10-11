@@ -50,7 +50,7 @@ export const handleSaveRegisteredUsersTwitterQuery = async (
       const axiosTwiterClient = createBearerTokenAccessClientForV1();
       const ids = await client.query("select id from public.tweet_bot_user").then((res)=>{return res.rows.map((item => item.id))});
 
-      const tweets = isTest()
+      let tweets = isTest()
         ? await mockFetchSpecifiedTweetFromSinceId(
             axiosTwiterClient,
             masterQuery,
@@ -58,6 +58,7 @@ export const handleSaveRegisteredUsersTwitterQuery = async (
         : await fetchSpecifiedTweetFromSinceId(axiosTwiterClient, masterQuery, ids);
       notify.push('fetchSpecifiedTweetFromSinceId');
 
+      tweets = tweets.filter(tweet => tweet.id_str)
       if (!Array.isArray(tweets) || tweets.length == 0) {
         continue;
       }

@@ -55,7 +55,7 @@ export const handleSaveRegisteredTwitterQuery = async (
       const axiosTwiterClient = createBearerTokenAccessClientForV1();
       const ids = await client.query("select id from public.tweet_bot_user").then((res)=>{return res.rows.map((item => item.id))});
 
-      const tweets = isTest()
+      let tweets = isTest()
         ? await mockFetchSpecifiedTweetFromSinceId(
             axiosTwiterClient,
             masterQuery,
@@ -63,10 +63,13 @@ export const handleSaveRegisteredTwitterQuery = async (
         : await fetchSpecifiedTweetFromSinceId(axiosTwiterClient, masterQuery, ids);
       notify.push('fetchSpecifiedTweetFromSinceId');
 
+      tweets = tweets.filter(tweet => tweet.id_str)
+
       if (!Array.isArray(tweets) || tweets.length == 0) {
         continue;
       }
 
+      // たぶん非公開もしくはbanになったtweet
       const end_id = tweets[0].id_str;
       const begin_id = tweets[tweets.length - 1].id_str;
       const count = tweets.length;
